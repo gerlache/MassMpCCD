@@ -1,0 +1,27 @@
+MassMpCCD
+
+What is MassMpCCD:
+MassMpCCD is a set of python scripts and some helper programs to measure more
+than one asteroid with MpCCD. With the current version of MpCCD, only one
+asteroid per image can be measured. This script is an experimental approach
+to overcome this limitation
+
+INSTALLATION / USAGE:
+All happens in the main MassMpCCD directory
+
+1) Get astorb.dat from lowell observatory
+(wget ftp://ftp.lowell.edu/pub/elgb/astorb.dat.gz && gzip -d astorb.dat.gz)
+
+2) cd projectpluto
+
+3) make -f linlunar.mak astcheck && mv astcheck ../ && cd ..
+
+4) ... now the deveopment begins, be patient ;-)
+
+
+
+It uses:
+- projectploto's astcheck (http://www.projectpluto.com/pluto/devel/astcheck.htm)
+this is included as sourcecode (Linux: make -f linlunar.mak astcheck)
+- pyFITS (not included, http://www.stsci.edu/institute/software_hardware/pyfits)
+- MpCCD (can be optained from TU Dresden http://astro.geo.tu-dresden.de/)
