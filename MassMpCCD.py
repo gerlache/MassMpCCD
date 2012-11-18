@@ -44,6 +44,7 @@ for fitfile in glob.glob(args.fitdir+"/*.fit"):
 	except KeyError:
 		print "This File misses at least one of the keys: OBJCTRA, OBJCTDEC, DATE-OBS"
 		hdulist.close()
+		print ""
 		break
 
 	if len(mpcstr) != 80:
@@ -57,6 +58,7 @@ for fitfile in glob.glob(args.fitdir+"/*.fit"):
 	except BaseException:
 		print "Could not write MPC-String file"
 		hdulist.close()
+		print ""
 		break
 
 	hdulist.close()
@@ -65,6 +67,8 @@ for fitfile in glob.glob(args.fitdir+"/*.fit"):
 
 # now apply astcheck on each fake mpc file in the fits dir
 for mpcfile in glob.glob(args.fitdir+"/*.fit.fakempc"):
-	print "DEBUG: " + mpcfile
-	astout = Popen(["./astcheck",mpcfile], stdout=PIPE).communicate()[0]
+	print "Searching for  " + mpcfile
+	srad = cfg.get('massmpccd', 'searchrad')
+	astout = Popen(["./astcheck",mpcfile,"-r"+str(srad)], stdout=PIPE).communicate()[0]
 	print astout
+	print ""
