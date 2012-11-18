@@ -44,3 +44,10 @@ nosetests.xml
 # Data Files
 *.fit
 *.fits
+*.fakempc
+curr_unc
+*.chk
+astorb.dat
+
+# local test files
+default.cfg

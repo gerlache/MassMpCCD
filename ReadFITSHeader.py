@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pyfits
 
 def getRA(hdu):
@@ -8,11 +9,3 @@ def getDEC(hdu):
 
 def getUT(hdu):
 	return str(hdu[0].header['DATE-OBS'])
-
-hdulist = pyfits.open('142401_L20c06000s001.fit')
-
-print getRA(hdulist) 
-print getDEC(hdulist)
-print getUT(hdulist)
-
-hdulist.close()
