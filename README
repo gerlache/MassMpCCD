@@ -16,7 +16,9 @@ All happens in the main MassMpCCD directory
 
 3) make -f linlunar.mak astcheck && mv astcheck ../ && cd ..
 
-4) ... now the deveopment begins, be patient ;-)
+4) ./MassMpCCD.py
+
+5) println output only ... you have to be patient
 
 
 

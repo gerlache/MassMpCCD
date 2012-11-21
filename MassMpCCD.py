@@ -88,3 +88,4 @@ for mpcfile in glob.glob(args.fitdir+"/*.fit.fakempc"):
 		sys.exit()
 	print AstcheckParse.parse(astout) 
 	print ""
+

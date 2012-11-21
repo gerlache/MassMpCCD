@@ -7,4 +7,3 @@ def openCfg(cfgfilename):
         config.optionxform = str
         config.readfp(open(cfgfilename))
         return config
-

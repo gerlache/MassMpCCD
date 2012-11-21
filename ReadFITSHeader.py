@@ -9,3 +9,4 @@ def getDEC(hdu):
 
 def getUT(hdu):
 	return str(hdu[0].header['DATE-OBS'])
+

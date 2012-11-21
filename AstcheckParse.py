@@ -36,3 +36,4 @@ def parse(ao):
 #			print "debg "  + num + unum + year + mag
 			retlist.append((num,year,unum,mag))
 	return retlist
+

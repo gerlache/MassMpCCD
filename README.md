@@ -1,6 +1,6 @@
 MassMpCCD
 =========
 
-scripts for mass measurements of asteroids with MpCCD
+python-scripts for mass measurements of asteroids with MpCCD
 
 

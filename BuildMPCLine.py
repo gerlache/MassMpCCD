@@ -50,3 +50,4 @@ def genMPCString(prefix,number,utdate,ra,dec,mag,obscode):
 	return genMPCNum(prefix,number) + genMPCDate(utdate) + " " + genMPCRADEC(ra,dec) + " "*10 + genMPCMag(mag) + genMPCObsy(obscode)
 
 # genMPCString("RG",1323,'2012-02-01T20:15:11','10 18 24','+38 23 09',12.443,'C01')
+
