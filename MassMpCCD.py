@@ -4,6 +4,7 @@
 import BuildMPCLine
 import ReadFITSHeader
 import ReadConfig
+import AstcheckParse
 import pyfits
 import os
 import argparse
@@ -16,9 +17,12 @@ Main program
 """
 
 # simple comand line arg parser
-parser = argparse.ArgumentParser(description="MassMpCCD - A Helper Tool for MpCCD")
-parser.add_argument('--fitdir', metavar='fitdir', help='directory which hold the fits files')
-parser.add_argument('--cfg', metavar='configf', help='configuration file for MassMpCCD')
+parser = argparse.ArgumentParser(description="MassMpCCD - A Helper\
+		Tool for MpCCD")
+parser.add_argument('--fitdir', metavar='fitdir', help='directory\
+		which hold the fits files')
+parser.add_argument('--cfg', metavar='configf', help='configuration\
+		file for MassMpCCD')
 args = parser.parse_args()
 
 # check if we have all cmd params
@@ -40,9 +44,13 @@ for fitfile in glob.glob(args.fitdir+"/*.fit"):
 	
 	# read fits files and generate mpc string files
 	try:
-		mpcstr = BuildMPCLine.genMPCString("RG",i,ReadFITSHeader.getUT(hdulist),ReadFITSHeader.getRA(hdulist),ReadFITSHeader.getDEC(hdulist),15.0,'C01')
+		mpcstr = BuildMPCLine.genMPCString("RG",i,
+				ReadFITSHeader.getUT(hdulist),
+				ReadFITSHeader.getRA(hdulist),
+				ReadFITSHeader.getDEC(hdulist),15.0,'C01')
 	except KeyError:
-		print "This File misses at least one of the keys: OBJCTRA, OBJCTDEC, DATE-OBS"
+		print "This File misses at least one of the keys: \
+			OBJCTRA, OBJCTDEC, DATE-OBS"
 		hdulist.close()
 		print ""
 		break
@@ -69,6 +77,14 @@ for fitfile in glob.glob(args.fitdir+"/*.fit"):
 for mpcfile in glob.glob(args.fitdir+"/*.fit.fakempc"):
 	print "Searching for  " + mpcfile
 	srad = cfg.get('massmpccd', 'searchrad')
-	astout = Popen(["./astcheck",mpcfile,"-r"+str(srad)], stdout=PIPE).communicate()[0]
-	print astout
+	astout = Popen(["./astcheck",mpcfile,"-r"+str(srad)],
+			stdout=PIPE).communicate()[0]
+	try:
+		# we write tis files only for later debugging purposes
+		f = open(mpcfile+".astcheck","w")
+		f.write(astout)
+		f.close()
+	except IOError:
+		sys.exit()
+	print AstcheckParse.parse(astout) 
 	print ""

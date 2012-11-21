@@ -48,6 +48,7 @@ nosetests.xml
 curr_unc
 *.chk
 astorb.dat
+fits/
 
 # local test files
 default.cfg
