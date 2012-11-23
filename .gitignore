@@ -52,3 +52,5 @@ fits/
 
 # local test files
 default.cfg
+debug.out
+fitsenrico

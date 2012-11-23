@@ -11,11 +11,11 @@ import argparse
 import ConfigParser
 import glob
 from subprocess import *
+import sys
 
 """
 Main program
 """
-
 # simple comand line arg parser
 parser = argparse.ArgumentParser(description="MassMpCCD - A Helper\
 		Tool for MpCCD")
@@ -23,6 +23,8 @@ parser.add_argument('--fitdir', metavar='fitdir', help='directory\
 		which hold the fits files')
 parser.add_argument('--cfg', metavar='configf', help='configuration\
 		file for MassMpCCD')
+parser.add_argument('--try', action='store_const' , dest='tryrun', const=True, default=False, help='do not run MpCCD')
+
 args = parser.parse_args()
 
 # check if we have all cmd params
@@ -73,19 +75,48 @@ for fitfile in glob.glob(args.fitdir+"/*.fit"):
 	i = i + 1
 	print ""
 
+mpccddir = cfg.get('mpccd','mpccddir')
+mpccdexe = cfg.get('mpccd','mpccdexe')
+mpccdout = cfg.get('mpccd','mpccdout')
+dbgf = open(cfg.get('massmpccd','debugfile'),"w")
+
 # now apply astcheck on each fake mpc file in the fits dir
 for mpcfile in glob.glob(args.fitdir+"/*.fit.fakempc"):
-	print "Searching for  " + mpcfile
+	print "Searching in  " + mpcfile
+	fitfile = os.path.abspath(mpcfile).replace('.fakempc','')
 	srad = cfg.get('massmpccd', 'searchrad')
-	astout = Popen(["./astcheck",mpcfile,"-r"+str(srad)],
+	astout = Popen([cfg.get('astcheck','acdir')+ "/" +
+			cfg.get('astcheck','acexe'),mpcfile,"-r"+str(srad)],
 			stdout=PIPE).communicate()[0]
 	try:
-		# we write tis files only for later debugging purposes
+		# we write this files only for later debugging purposes
 		f = open(mpcfile+".astcheck","w")
 		f.write(astout)
 		f.close()
 	except IOError:
 		sys.exit()
-	print AstcheckParse.parse(astout) 
+	apar = AstcheckParse.parse(astout)
+	if args.tryrun:
+		for ast in apar:
+			if float(ast[3]) <= float(cfg.get('massmpccd','maglim')):
+				print "Found: " + str(ast)
+
+	if not args.tryrun:
+		for ast in apar:
+			if float(ast[3]) <= float(cfg.get('massmpccd','maglim')):
+				print "MpCCD search for: " + str(ast)
+				if ast[0] != "":
+					p = Popen([mpccddir+"/"+mpccdexe, fitfile, "-PlanetID=" + ast[0], " -Output=" + mpccdout], stdout=PIPE)
+					for line in p.stdout:
+						dbgf.write(line)
+						sys.stdout.flush()
+					p.wait()
+				else:
+					p = Popen([mpccddir+"/"+mpccdexe, fitfile, "-PlanetID=" + ast[1]+ast[2], " -Output=" + mpccdout], stdout=PIPE)
+					for line in p.stdout:
+						dbgf.write(line)
+						sys.stdout.flush()
+					p.wait()
 	print ""
 
+dbgf.close()

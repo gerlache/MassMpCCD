@@ -19,7 +19,7 @@ def parse(ao):
 			num = ""
 
 		# look if year is present
-		year = l[9:14]
+		year = l[9:14].strip()
 		if not re.search('[0-9][0-9][0-9][0-9]',year):
 			year = ""
 
@@ -28,7 +28,7 @@ def parse(ao):
 		if not re.search('[A-Z][0-9]',unum):
 			unum = ""
 		# get magnitude
-		mag = l[51:56]
+		mag = l[51:56].strip()
 		if not re.search('[0-9]\.[0-9]',mag):
 			mag = ""
 
