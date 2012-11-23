@@ -1,0 +1,16 @@
+Most important:
+
+- Check age difference between astorb.dat for astcheck, MpCCD, and picture date
+
+- Write picture.ini, it currently only works with:
+     for i in *.fit; do mv $i `md5sum $i | cut -f1 -d' '`.fit; done;
+and
+     for i in *.fit; do replacekey -p OBJECT -v "''" $i; done;
+done in the fits folder. This sucks, you have to backup your fitsfiles currently
+
+
+Less important:
+
+- Checks for everything, try/catch.
+
+- Sane progress indicator
