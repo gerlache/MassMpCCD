@@ -4,7 +4,7 @@ What is MassMpCCD:
 MassMpCCD is a set of python scripts and some helper programs to measure more
 than one asteroid with MpCCD. With the current version of MpCCD, only one
 asteroid per image can be measured. This script is an experimental approach
-to overcome this limitation
+to overcome this limitation.
 
 INSTALLATION / USAGE:
 All happens in the main MassMpCCD directory
